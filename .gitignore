@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+.env
+faiss_index/
+*.log
+.DS_Store
+.DS_Store?
+.idea/
+.vscode/
+huggingface_cache/

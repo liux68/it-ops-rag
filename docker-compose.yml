@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  rag-knowledge-base:
+    build: .
+    container_name: it-ops-rag
+    ports:
+      - "8000:8000"
+      - "8501:8501"
+    volumes:
+      # 挂载数据目录，方便更新文档
+      - ./data:/app/data
+      # 挂载向量索引目录，避免重新构建
+      - ./faiss_index:/app/faiss_index
+      # 挂载模型缓存目录，避免重复下载
+      - huggingface_cache:/root/.cache/huggingface
+    environment:
+      - HF_ENDPOINT=https://hf-mirror.com
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - LLM_MODEL=${LLM_MODEL}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL}
+    restart: unless-stopped
+
+volumes:
+  huggingface_cache:
+    driver: local
