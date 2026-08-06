@@ -9,3 +9,4 @@ faiss_index/
 .idea/
 .vscode/
 huggingface_cache/
+.workbuddy/

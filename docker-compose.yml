@@ -8,11 +8,8 @@ services:
       - "8000:8000"
       - "8501:8501"
     volumes:
-      # 挂载数据目录，方便更新文档
       - ./data:/app/data
-      # 挂载向量索引目录，避免重新构建
       - ./faiss_index:/app/faiss_index
-      # 挂载模型缓存目录，避免重复下载
       - huggingface_cache:/root/.cache/huggingface
     environment:
       - HF_ENDPOINT=https://hf-mirror.com
@@ -21,7 +18,82 @@ services:
       - LLM_MODEL=${LLM_MODEL}
       - EMBEDDING_MODEL=${EMBEDDING_MODEL}
     restart: unless-stopped
+    networks:
+      - rag-net
+
+  # Prometheus 监控
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: rag-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=15d'
+    restart: unless-stopped
+    networks:
+      - rag-net
+
+  # Grafana 可视化面板
+  grafana:
+    image: grafana/grafana:latest
+    container_name: rag-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      - rag-net
+
+  # Redis (Celery broker)
+  redis:
+    image: redis:7-alpine
+    container_name: rag-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      - rag-net
+
+  # Celery Worker
+  celery-worker:
+    build: .
+    container_name: rag-celery-worker
+    command: python -m celery -A src.tasks worker --loglevel=info
+    volumes:
+      - ./data:/app/data
+      - ./faiss_index:/app/faiss_index
+      - huggingface_cache:/root/.cache/huggingface
+    environment:
+      - HF_ENDPOINT=https://hf-mirror.com
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - LLM_MODEL=${LLM_MODEL}
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - rag-net
 
 volumes:
   huggingface_cache:
     driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+networks:
+  rag-net:
+    driver: bridge

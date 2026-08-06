@@ -1,0 +1,107 @@
+[
+  {
+    "id": "eval-001",
+    "question": "服务器CPU使用率持续超过80%怎么排查？",
+    "expected_answer_keywords": ["top", "strace", "crontab", "jstack", "进程"],
+    "relevant_doc_keywords": ["CPU负载过高", "top -c", "strace -p", "jstack"],
+    "category": "服务器运维"
+  },
+  {
+    "id": "eval-002",
+    "question": "业务系统访问特定端口超时如何排查？",
+    "expected_answer_keywords": ["防火墙", "iptables", "telnet", "端口", "安全组"],
+    "relevant_doc_keywords": ["网络连接超时", "telnet IP PORT", "iptables", "安全组"],
+    "category": "网络排查"
+  },
+  {
+    "id": "eval-003",
+    "question": "数据库连接池耗尽怎么解决？HikariCP如何配置？",
+    "expected_answer_keywords": ["HikariCP", "maximumPoolSize", "connectionTimeout", "连接池"],
+    "relevant_doc_keywords": ["Connection pool exhausted", "maximumPoolSize", "minimumIdle", "leakDetectionThreshold"],
+    "category": "数据库运维"
+  },
+  {
+    "id": "eval-004",
+    "question": "数据备份策略是什么？恢复演练怎么做？",
+    "expected_answer_keywords": ["全量备份", "增量备份", "RPO", "RTO", "恢复演练"],
+    "relevant_doc_keywords": ["全量备份", "增量备份", "恢复演练", "RPO", "RTO"],
+    "category": "备份恢复"
+  },
+  {
+    "id": "eval-005",
+    "question": "磁盘使用率超过85%怎么处理？",
+    "expected_answer_keywords": ["find", "大文件", "日志", "扩容", "/var/log"],
+    "relevant_doc_keywords": ["磁盘使用率", "find / -type f -size +1G", "/var/log", "扩容"],
+    "category": "告警处理"
+  },
+  {
+    "id": "eval-006",
+    "question": "内存使用率超过90%如何排查和处理？",
+    "expected_answer_keywords": ["内存泄漏", "valgrind", "swap", "JVM"],
+    "relevant_doc_keywords": ["内存使用率", "valgrind", "swap", "内存泄漏"],
+    "category": "告警处理"
+  },
+  {
+    "id": "eval-007",
+    "question": "SSL证书快过期了怎么办？",
+    "expected_answer_keywords": ["证书", "过期", "nginx -s reload", "中间证书链"],
+    "relevant_doc_keywords": ["SSL证书", "过期", "nginx -s reload", "中间证书链"],
+    "category": "告警处理"
+  },
+  {
+    "id": "eval-008",
+    "question": "服务器CPU高负载，如果是Java应用需要用什么工具分析？",
+    "expected_answer_keywords": ["jstack", "线程栈", "死锁", "Java"],
+    "relevant_doc_keywords": ["jstack", "线程栈", "死锁", "Java"],
+    "category": "服务器运维"
+  },
+  {
+    "id": "eval-009",
+    "question": "云服务器网络不通，需要检查哪些安全配置？",
+    "expected_answer_keywords": ["安全组", "防火墙", "ACL", "DNS"],
+    "relevant_doc_keywords": ["安全组", "iptables", "firewalld", "ACL"],
+    "category": "网络排查"
+  },
+  {
+    "id": "eval-010",
+    "question": "HikariCP连接泄漏如何检测？参数怎么配？",
+    "expected_answer_keywords": ["leakDetectionThreshold", "60000", "连接泄漏", "ms"],
+    "relevant_doc_keywords": ["leakDetectionThreshold", "60000", "连接泄漏"],
+    "category": "数据库运维"
+  },
+  {
+    "id": "eval-011",
+    "question": "备份的RPO和RTO分别是多少？",
+    "expected_answer_keywords": ["RPO", "RTO", "24小时", "4小时"],
+    "relevant_doc_keywords": ["RPO", "RTO", "24小时", "4小时"],
+    "category": "备份恢复"
+  },
+  {
+    "id": "eval-012",
+    "question": "服务器响应变慢，top命令显示CPU高，可能是什么原因？",
+    "expected_answer_keywords": ["业务突发流量", "挖矿病毒", "内存不足", "swap", "DEBUG日志"],
+    "relevant_doc_keywords": ["CPU使用率", "业务突发流量", "挖矿病毒", "swap", "DEBUG"],
+    "category": "服务器运维"
+  },
+  {
+    "id": "eval-013",
+    "question": "如何检查系统连接数是否达到上限？",
+    "expected_answer_keywords": ["netstat", "ESTABLISHED", "wc -l", "连接数"],
+    "relevant_doc_keywords": ["netstat -an", "ESTABLISHED", "wc -l"],
+    "category": "网络排查"
+  },
+  {
+    "id": "eval-014",
+    "question": "备份恢复的具体步骤是什么？",
+    "expected_answer_keywords": ["停止应用", "备份文件", "mysql", "业务验证"],
+    "relevant_doc_keywords": ["停止应用服务", "备份介质", "mysql -u root", "业务验证"],
+    "category": "备份恢复"
+  },
+  {
+    "id": "eval-015",
+    "question": "数据库连接池maximumPoolSize建议设置多少？minimumIdle怎么配？",
+    "expected_answer_keywords": ["20", "50", "一半", "maximumPoolSize"],
+    "relevant_doc_keywords": ["maximumPoolSize", "20", "50", "minimumIdle", "一半"],
+    "category": "数据库运维"
+  }
+]
